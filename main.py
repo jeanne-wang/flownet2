@@ -13,7 +13,7 @@ from tqdm import tqdm
 from glob import glob
 from os.path import *
 
-import models, losses, datasets, mydatasets
+import models, losses, mydatasets
 from utils import flow_utils, tools
 
 # fp32 copy of parameters for update
@@ -84,14 +84,22 @@ if __name__ == '__main__':
     tools.add_arguments_for_module(parser, mydatasets, argument_for_class='training_dataset', default='Nba2k', 
                                     skip_params=['is_cropped'],
                                     parameter_defaults={'root': '/projects/grail/xiaojwan/nba2k_flow',
-                                                        'img1_dirname': '2k_mesh_rasterized',
+                                                        'img1_dirname': '2k_frames',
                                                         'img2_dirname': '2k_mesh_rasterized_noised_camera_sigma_5',
                                                         'dstype': 'train',
                                                         'replicates': 1})
     tools.add_arguments_for_module(parser, mydatasets, argument_for_class='validation_dataset', default='Nba2k', 
                                     skip_params=['is_cropped'],
                                     parameter_defaults={'root': '/projects/grail/xiaojwan/nba2k_flow',
-                                                        'img1_dirname': '2k_mesh_rasterized',
+                                                        'img1_dirname': '2k_frames',
+                                                        'img2_dirname': '2k_mesh_rasterized_noised_camera_sigma_5',
+                                                        'dstype': 'val',
+                                                        'replicates': 1})
+
+    tools.add_arguments_for_module(parser, mydatasets, argument_for_class='inference_dataset', default='Nba2k', 
+                                    skip_params=['is_cropped'],
+                                    parameter_defaults={'root': '/projects/grail/xiaojwan/nba2k_flow',
+                                                        'img1_dirname': '2k_frames',
                                                         'img2_dirname': '2k_mesh_rasterized_noised_camera_sigma_5',
                                                         'dstype': 'val',
                                                         'replicates': 1})
@@ -121,7 +129,7 @@ if __name__ == '__main__':
         ## change to my class
         args.training_dataset_class = tools.module_to_dict(mydatasets)[args.training_dataset]
         args.validation_dataset_class = tools.module_to_dict(mydatasets)[args.validation_dataset]
-        # args.inference_dataset_class = tools.module_to_dict(datasets)[args.inference_dataset]
+        args.inference_dataset_class = tools.module_to_dict(mydatasets)[args.inference_dataset]
 
         args.cuda = not args.no_cuda and torch.cuda.is_available()
         args.current_hash = subprocess.check_output(["git", "rev-parse", "HEAD"]).rstrip()
