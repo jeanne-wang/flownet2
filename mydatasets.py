@@ -62,6 +62,7 @@ class Nba2k(data.Dataset):
         args.inference_size = self.render_size
 
         assert (len(self.image_list) == len(self.flow_list))
+        print('There are {} frames in the dataset'.format(self.size))
 
     def __getitem__(self, index):
 
