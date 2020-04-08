@@ -34,7 +34,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--number_workers', '-nw', '--num_workers', type=int, default=8)
     parser.add_argument('--number_gpus', '-ng', type=int, default=-1, help='number of GPUs to use')
-    parser.add_argument('--gpu_ids', nargs='+', type=int, required=True)
+    parser.add_argument('--gpu_ids', type=int, nargs='+', default = [0, 2, 3, 4])
     parser.add_argument('--no_cuda', action='store_true')
 
     parser.add_argument('--seed', type=int, default=1)
