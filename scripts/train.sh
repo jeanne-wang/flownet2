@@ -7,4 +7,4 @@ python main.py --model FlowNet2 --loss=L1Loss --optimizer=Adam --optimizer_lr=1e
 --number_gpus 4 --gpu_ids 0 2 3 4 \
 --validation_frequency 10 \
 --render_validation --save_flow --inference_visualize \
---inference_n_batches 10 --inference_batch_size 1
+--inference_n_batches 40 --inference_batch_size 1
