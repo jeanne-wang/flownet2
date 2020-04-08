@@ -15,4 +15,6 @@ def read_gen(file_name):
         return np.load(file_name)
     elif ext == '.flo':
         return flow_utils.readFlow(file_name).astype(np.float32)
+    elif ext == '.npy':
+        return np.load(file_name).astype(np.float32)
     return []

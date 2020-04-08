@@ -13,7 +13,7 @@ from tqdm import tqdm
 from glob import glob
 from os.path import *
 
-import models, losses, datasets
+import models, losses, datasets, mydatasets
 from utils import flow_utils, tools
 
 # fp32 copy of parameters for update
@@ -67,18 +67,33 @@ if __name__ == '__main__':
 
     tools.add_arguments_for_module(parser, torch.optim, argument_for_class='optimizer', default='Adam', skip_params=['params'])
     
-    tools.add_arguments_for_module(parser, datasets, argument_for_class='training_dataset', default='MpiSintelFinal', 
-                                    skip_params=['is_cropped'],
-                                    parameter_defaults={'root': './MPI-Sintel/flow/training'})
+    # tools.add_arguments_for_module(parser, datasets, argument_for_class='training_dataset', default='MpiSintelFinal', 
+    #                                 skip_params=['is_cropped'],
+    #                                 parameter_defaults={'root': './MPI-Sintel/flow/training'})
     
-    tools.add_arguments_for_module(parser, datasets, argument_for_class='validation_dataset', default='MpiSintelClean', 
+    # tools.add_arguments_for_module(parser, datasets, argument_for_class='validation_dataset', default='MpiSintelClean', 
+    #                                 skip_params=['is_cropped'],
+    #                                 parameter_defaults={'root': './MPI-Sintel/flow/training',
+    #                                                     'replicates': 1})
+    
+    # tools.add_arguments_for_module(parser, datasets, argument_for_class='inference_dataset', default='MpiSintelClean', 
+    #                                 skip_params=['is_cropped'],
+    #                                 parameter_defaults={'root': './MPI-Sintel/flow/training',
+    #                                                     'replicates': 1})
+    ## add by xiaojuan
+    tools.add_arguments_for_module(parser, mydatasets, argument_for_class='training_dataset', default='Nba2k', 
                                     skip_params=['is_cropped'],
-                                    parameter_defaults={'root': './MPI-Sintel/flow/training',
+                                    parameter_defaults={'root': '/projects/grail/xiaojwan/nba2k_flow',
+                                                        'img1_dirname': '2k_mesh_rasterized',
+                                                        'img2_dirname': '2k_mesh_rasterized_noised_camera_sigma_5',
+                                                        'dstype': 'train'
                                                         'replicates': 1})
-    
-    tools.add_arguments_for_module(parser, datasets, argument_for_class='inference_dataset', default='MpiSintelClean', 
+    tools.add_arguments_for_module(parser, mydatasets, argument_for_class='validation_dataset', default='Nba2k', 
                                     skip_params=['is_cropped'],
-                                    parameter_defaults={'root': './MPI-Sintel/flow/training',
+                                    parameter_defaults={'root': '/projects/grail/xiaojwan/nba2k_flow',
+                                                        'img1_dirname': '2k_mesh_rasterized',
+                                                        'img2_dirname': '2k_mesh_rasterized_noised_camera_sigma_5',
+                                                        'dstype': 'train'
                                                         'replicates': 1})
 
     main_dir = os.path.dirname(os.path.realpath(__file__))
@@ -103,9 +118,10 @@ if __name__ == '__main__':
         args.optimizer_class = tools.module_to_dict(torch.optim)[args.optimizer]
         args.loss_class = tools.module_to_dict(losses)[args.loss]
 
-        args.training_dataset_class = tools.module_to_dict(datasets)[args.training_dataset]
-        args.validation_dataset_class = tools.module_to_dict(datasets)[args.validation_dataset]
-        args.inference_dataset_class = tools.module_to_dict(datasets)[args.inference_dataset]
+        ## change to my class
+        args.training_dataset_class = tools.module_to_dict(mydatasets)[args.training_dataset]
+        args.validation_dataset_class = tools.module_to_dict(mydatasets)[args.validation_dataset]
+        # args.inference_dataset_class = tools.module_to_dict(datasets)[args.inference_dataset]
 
         args.cuda = not args.no_cuda and torch.cuda.is_available()
         args.current_hash = subprocess.check_output(["git", "rev-parse", "HEAD"]).rstrip()
