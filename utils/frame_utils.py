@@ -1,6 +1,6 @@
 import numpy as np
 from os.path import *
-from scipy.misc import imread
+from skimage.io import imread
 from . import flow_utils 
 
 def read_gen(file_name):
@@ -11,10 +11,8 @@ def read_gen(file_name):
             return im[:,:,:3]
         else:
             return im
-    elif ext == '.bin' or ext == '.raw':
+    elif ext == '.bin' or ext == '.raw' or ext == '.npy':
         return np.load(file_name)
     elif ext == '.flo':
         return flow_utils.readFlow(file_name).astype(np.float32)
-    elif ext == '.npy':
-        return np.load(file_name).astype(np.float32)
     return []

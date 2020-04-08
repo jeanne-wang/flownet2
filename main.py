@@ -86,14 +86,14 @@ if __name__ == '__main__':
                                     parameter_defaults={'root': '/projects/grail/xiaojwan/nba2k_flow',
                                                         'img1_dirname': '2k_mesh_rasterized',
                                                         'img2_dirname': '2k_mesh_rasterized_noised_camera_sigma_5',
-                                                        'dstype': 'train'
+                                                        'dstype': 'train',
                                                         'replicates': 1})
     tools.add_arguments_for_module(parser, mydatasets, argument_for_class='validation_dataset', default='Nba2k', 
                                     skip_params=['is_cropped'],
                                     parameter_defaults={'root': '/projects/grail/xiaojwan/nba2k_flow',
                                                         'img1_dirname': '2k_mesh_rasterized',
                                                         'img2_dirname': '2k_mesh_rasterized_noised_camera_sigma_5',
-                                                        'dstype': 'train'
+                                                        'dstype': 'val',
                                                         'replicates': 1})
 
     main_dir = os.path.dirname(os.path.realpath(__file__))
