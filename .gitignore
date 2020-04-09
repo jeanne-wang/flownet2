@@ -4,5 +4,7 @@ _ext
 *.o
 work
 work/*
+work_simple
+work_simple/*
 _ext/
 .DS_Store
