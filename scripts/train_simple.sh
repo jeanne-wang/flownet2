@@ -3,11 +3,11 @@ python main.py --model FlowNet2 --loss=L1Loss --optimizer=Adam --optimizer_lr=1e
 --training_dataset Nba2k --training_dataset_dstype 'train' --training_dataset_img1_dirname '2k_mesh_rasterized' \
 --validation_dataset Nba2k --validation_dataset_dstype 'val' --validation_dataset_img1_dirname '2k_mesh_rasterized' \
 --inference_dataset Nba2k --inference_dataset_dstype 'val' --inference_dataset_img1_dirname '2k_mesh_rasterized' \
---crop_size 512 512 --batch_size 4 \
---number_gpus 2 --gpu_ids 0 1 \
+--crop_size 768 1280 --batch_size 1 \
+--number_gpus 4 --gpu_ids 0 2 3 4 \
 --validation_frequency 10 \
 --render_validation --save_flow --inference_visualize \
 --inference_n_batches 40 --inference_batch_size 1 \
---save './work_simple'
+--save './work_simple_1280'
 
 
