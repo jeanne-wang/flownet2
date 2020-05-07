@@ -94,4 +94,65 @@ class Nba2k(data.Dataset):
     def __len__(self):
         return self.size * self.replicates
 
+class Nba2k_players_images(data.Dataset):
+    def __init__(self, args, is_cropped = False, root = '',
+                        img1_dirname='2k_frames_masked_players', 
+                        img2_dirname='2k_players_mesh_blender_est_camera', 
+                        dstype = 'train', replicates = 1):
+        self.args = args
+        self.is_cropped = is_cropped
+        self.crop_size = args.crop_size
+        self.render_size = args.inference_size
+        self.replicates = replicates
+
+        # read 'dstype' list of names
+        with open(os.path.join(root, dstype+'.txt')) as f:
+            frame_names = f.read().splitlines()
+
+        self.image_list = []
+        for frame_name in frame_names:
+            img1 = os.path.join(img1_dirname, frame_name+'.png')
+            img2 = os.path.join(img2_dirname, frame_name+'.png')
+
+            if not isfile(img1) or not isfile(img2):
+                continue
+
+            self.image_list += [[img1, img2]]
+    
+        self.size = len(self.image_list)
+        self.frame_size = frame_utils.read_gen(self.image_list[0][0]).shape
+
+        if (self.render_size[0] < 0) or (self.render_size[1] < 0) or (self.frame_size[0]%64) or (self.frame_size[1]%64):
+            self.render_size[0] = ( (self.frame_size[0])//64 ) * 64
+            self.render_size[1] = ( (self.frame_size[1])//64 ) * 64
+
+        args.inference_size = self.render_size
+
+        print('There are {} frames in the dataset'.format(self.size))
+
+    def __getitem__(self, index):
+
+        index = index % self.size
+
+        img1 = frame_utils.read_gen(self.image_list[index][0])
+        img2 = frame_utils.read_gen(self.image_list[index][1])
+
+
+        images = [img1, img2]
+        image_size = img1.shape[:2]
+
+        if self.is_cropped:
+            cropper = StaticRandomCrop(image_size, self.crop_size)
+        else:
+            cropper = StaticCenterCrop(image_size, self.render_size)
+        images = list(map(cropper, images))
+
+        images = np.array(images).transpose(3,0,1,2)
+        images = torch.from_numpy(images.astype(np.float32))
+    
+
+        return [images], [torch.zeros(images.size()[0:1] + (2,) + images.size()[-2:])]
+
+    def __len__(self):
+        return self.size * self.replicates
 
