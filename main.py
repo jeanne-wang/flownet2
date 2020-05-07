@@ -208,7 +208,13 @@ if __name__ == '__main__':
         block.log('Effective Batch Size: {}'.format(args.effective_batch_size))
         block.log('Number of parameters: {}'.format(sum([p.data.nelement() if p.requires_grad else 0 for p in model_and_loss.parameters()])))
 
+        ## change gpu mapping
         assert(len(args.gpu_ids) == args.number_gpus)
+        os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_ids
+        args.gpu_ids = [int(i) for i in range(len(args.number_gpus))]
+        ###
+
+
         # assing to cuda or wrap with dataparallel, model and loss 
         if args.cuda and (args.number_gpus > 0) and args.fp16:
             block.log('Parallelizing')
