@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+os.environ["CUDA_VISIBLE_DEVICES"] = '1'
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
@@ -209,7 +209,7 @@ if __name__ == '__main__':
         block.log('Number of parameters: {}'.format(sum([p.data.nelement() if p.requires_grad else 0 for p in model_and_loss.parameters()])))
 
         ## change gpu mapping
-        os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_ids
+        #os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_ids
         args.gpu_ids = [int(i) for i in range(len(args.gpu_ids.split(',')))]
         assert(len(args.gpu_ids) == args.number_gpus)
         ###
