@@ -85,23 +85,23 @@ if __name__ == '__main__':
     tools.add_arguments_for_module(parser, mydatasets, argument_for_class='training_dataset', default='Nba2k', 
                                     skip_params=['is_cropped'],
                                     parameter_defaults={'root': '/projects/grail/xiaojwan/nba2k_flow',
-                                                        'img1_dirname': '2k_frames',
-                                                        'img2_dirname': '2k_mesh_rasterized_noised_camera_sigma_5',
+                                                        'img1_dirname': '/projects/grail/xiaojwan/2k_frames',
+                                                        'img2_dirname': '/projects/grail/xiaojwan/2k_mesh_rasterized_noised_camera_sigma_5',
                                                         'dstype': 'train',
                                                         'replicates': 1})
     tools.add_arguments_for_module(parser, mydatasets, argument_for_class='validation_dataset', default='Nba2k', 
                                     skip_params=['is_cropped'],
                                     parameter_defaults={'root': '/projects/grail/xiaojwan/nba2k_flow',
-                                                        'img1_dirname': '2k_frames',
-                                                        'img2_dirname': '2k_mesh_rasterized_noised_camera_sigma_5',
+                                                        'img1_dirname': '/projects/grail/xiaojwan/2k_frames',
+                                                        'img2_dirname': '/projects/grail/xiaojwan/2k_mesh_rasterized_noised_camera_sigma_5',
                                                         'dstype': 'val',
                                                         'replicates': 1})
 
     tools.add_arguments_for_module(parser, mydatasets, argument_for_class='inference_dataset', default='Nba2k', 
                                     skip_params=['is_cropped'],
                                     parameter_defaults={'root': '/projects/grail/xiaojwan/nba2k_flow',
-                                                        'img1_dirname': '2k_frames',
-                                                        'img2_dirname': '2k_mesh_rasterized_noised_camera_sigma_5',
+                                                        'img1_dirname': '/projects/grail/xiaojwan/2k_frames',
+                                                        'img2_dirname': '/projects/grail/xiaojwan/2k_mesh_rasterized_noised_camera_sigma_5',
                                                         'dstype': 'val',
                                                         'replicates': 1})
 

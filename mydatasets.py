@@ -42,9 +42,9 @@ class Nba2k(data.Dataset):
         self.flow_list = []
         self.image_list = []
         for frame_name in frame_names:
-            flow = os.path.join(root, img2_dirname, frame_name+'.flo.npy') 
-            img1 = os.path.join(root, img1_dirname, frame_name+'.png')
-            img2 = os.path.join(root, img2_dirname, frame_name+'.png')
+            flow = os.path.join(img2_dirname, frame_name+'.flo.npy') 
+            img1 = os.path.join(img1_dirname, frame_name+'.png')
+            img2 = os.path.join(img2_dirname, frame_name+'.png')
 
             if not isfile(img1) or not isfile(img2) or not isfile(flow):
                 continue
@@ -113,7 +113,7 @@ class Nba2k_players_images(data.Dataset):
         for frame_name in frame_names:
             img1 = os.path.join(img1_dirname, frame_name+'.png')
             img2 = os.path.join(img2_dirname, frame_name+'.png')
-
+           
             if not isfile(img1) or not isfile(img2):
                 continue
 
