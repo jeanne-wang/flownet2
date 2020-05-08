@@ -4,11 +4,7 @@ _ext
 *.o
 work
 work/*
-work_simple
-work_simple/*
-train_results_game_to_rastered
-train_results_game_to_rastered/*
-val_results_game_to_rastered
-val_results_game_to_rastered/*
+pretrained_models/
+pretrained_models/*
 _ext/
 .DS_Store
