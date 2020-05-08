@@ -34,7 +34,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--number_workers', '-nw', '--num_workers', type=int, default=8)
     parser.add_argument('--number_gpus', '-ng', type=int, default=-1, help='number of GPUs to use')
-    parser.add_argument('--gpu_ids', type=int, nargs='+', default = [0, 2, 3, 4])
+    parser.add_argument('--gpu_ids', type=str, default = '0')
     parser.add_argument('--no_cuda', action='store_true')
 
     parser.add_argument('--seed', type=int, default=1)
@@ -209,9 +209,9 @@ if __name__ == '__main__':
         block.log('Number of parameters: {}'.format(sum([p.data.nelement() if p.requires_grad else 0 for p in model_and_loss.parameters()])))
 
         ## change gpu mapping
-        assert(len(args.gpu_ids) == args.number_gpus)
         os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_ids
-        args.gpu_ids = [int(i) for i in range(len(args.number_gpus))]
+        args.gpu_ids = [int(i) for i in range(len(args.gpu_ids.split(',')))]
+        assert(len(args.gpu_ids) == args.number_gpus)
         ###
 
 
